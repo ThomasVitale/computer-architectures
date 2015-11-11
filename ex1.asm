@@ -17,7 +17,7 @@ DIM_B EQU 9
 	.CODE
 	.STARTUP
 	
-	; Compute the sum for each pair of consecutive values, putting the result in a 9 elements array
+	; 1 - Compute the sum for each pair of consecutive values, putting the result in a 9 elements array
 						
 			XOR AX,AX; initialization of AX to use it as support register for addition
 			MOV CX, DIM_B
@@ -31,9 +31,9 @@ sum_pair_values:	MOV AL, VETT_A[DI]; first value of the pair
 			CMP CX,0
 			JNZ sum_pair_values; jump to the next pair of consecutive values
 			
-	; Find the minimum value both for the first (A) and the second (B) array.
+	; 2 - Find the minimum value both for the first (A) and the second (B) array.
 	
-			; Find the minimum value for VETT_A
+			; 2a - Find the minimum value for VETT_A
 			XOR AX,AX; initialization of AX, used for storing the actual minimum
 			MOV CX, DIM_A
 			XOR DI, DI;
@@ -50,7 +50,7 @@ current_is_minimum_a: 	INC DI
 			
 			MOV MIN_A, AL;store the minimum
 
-                  	; Find the minimum value for VETT_B
+                  	; 2b - Find the minimum value for VETT_B
 			XOR AX,AX; initialization of AX, used for storing the actual minimum
 			MOV CX, DIM_B
 			XOR DI, DI; 
