@@ -20,6 +20,7 @@ DIM_M EQU 81
 		MIN_A DB ?
 		MIN_B DB ?
 		MATRIX DW DIM_M DUP(?)
+		MAX DW ?
 		
 	.CODE
 	.STARTUP
@@ -121,7 +122,7 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 search_maximum: 	CMP AX, MATRIX[DI]; compare with the current maximum		
 			JB current_is_maximum; if AX>MATRIX[DI]
 			MOV AX, MATRIX[DI]; AX<MATRIX[DI], store the new maximum
-current_is_maximum_a: 	ADD DI, 2
+current_is_maximum: 	ADD DI, 2
 			DEC CX
 			CMP CX,0
 			JNZ search_maximum 
