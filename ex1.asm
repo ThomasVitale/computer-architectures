@@ -71,6 +71,44 @@ current_is_minimum_b: 	INC DI
 			JNZ search_minimum_b
 			
 			MOV MIN_B, AL;store the minimum
+			
+	; 3 - Compute all possible products among first 9 values of first array and all 9 values of second array, 
+	;     putting results in a matrix of 9x9 values (words)
+	
+			XOR AX,AX; initialitation, used as support register for multiplications 
+			XOR BX,BX; initialitation, used as index for VETT_A
+						
+multiply_outer_loop:	MOV AL, VETT_A[BX]; first operand of multiplication
+			PUSH AX; save the operand to be multiplied by each element of VETT_B
+			XOR SI, SI; initialitation, used as index for VETT_B
+			XOR DI, DI; initialitation, used as col index for matrix
+			MOV CX, DIM_B
+						
+multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
+			PUSH AX; save the result
+			
+			XOR AX,AX; initialitation, used to compute the row index of matrix
+			MOV AL, 18; 18 = number of columns * 2, because dealing with words.
+			MUL BX
+			MOV BP, BX; store the row index in BP
+			
+			POP AX; restore the result of multiplication
+			MOV MATRIX[BP][DI], AX; store the product in MATRIX[i*2*nCols][2*j]
+			
+			POP AX; restore the first operand of multiplication, i.e. VETT_A[BX]
+			
+			INC SI
+			ADD DI, 2
+			DEC CX
+			
+			CMP CX, 0
+			JNZ multiply_inner_loop
+			; end inner loop
+					
+			INC BX
+			
+			CMP BX, DIM_B
+			JB multiply_outer_loop
 						
 	.EXIT
 END
