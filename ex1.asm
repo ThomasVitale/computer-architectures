@@ -13,7 +13,9 @@ DIM_B EQU 9
 	.DATA
 		VETT_A DB 5, 21, 7, 4, 10, 33, 56, 96, 25, 15
 		VETT_B DB DIM_B ?
-
+		MIN_A DB ?
+		MIN_B DB ?
+		
 	.CODE
 	.STARTUP
 	
