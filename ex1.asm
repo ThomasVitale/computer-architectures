@@ -2,7 +2,10 @@
 ; 1 - compute the sum for each pair of consecutive values, 
 ;     putting the result in a 9 elements array;
 ; 2 - find the minimum value both for the first (A) 
-;     and the second (B) array.
+;     and the second (B) array;
+; 3 - compute all possible products among first 9 values of first array 
+;     and all 9 values of second array, putting results in a matrix 
+;     of 9x9 values (words).
 
 DIM_A EQU 10
 DIM_B EQU 9
