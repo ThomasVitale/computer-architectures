@@ -15,16 +15,16 @@ DIM_B EQU 9
 	.CODE
 	.STARTUP
 						
-						XOR AX,AX; initialization of AX to use it as support register for addition
-						MOV CX, DIM_B
-						XOR DI, DI; initialization of DI, used to point each value in the vector
+			XOR AX,AX; initialization of AX to use it as support register for addition
+			MOV CX, DIM_B
+			XOR DI, DI; initialization of DI, used to point each value in the vector
 		
-sum_pair_values:		MOV AL, VETT_A[DI]; first value of the pair
-						        ADD AL, VETT_A[DI+1]; add second value of the pair to the first one
-						        MOV VETT_B[DI], AL; store the sum of the pair in the second vector
-						        INC DI
-						        DEC CX
-						        CMP CX,0
-						        JNZ sum_pair_values; jump to the next pair of consecutive values
+sum_pair_values:	MOV AL, VETT_A[DI]; first value of the pair
+			ADD AL, VETT_A[DI+1]; add second value of the pair to the first one
+			MOV VETT_B[DI], AL; store the sum of the pair in the second vector
+			INC DI
+			DEC CX
+			CMP CX,0
+			JNZ sum_pair_values; jump to the next pair of consecutive values
 	.EXIT
 END
