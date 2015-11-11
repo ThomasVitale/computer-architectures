@@ -91,9 +91,11 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 			PUSH AX; save the result
 			
 			XOR AX,AX; initialitation, used to compute the row index of matrix
+			PUSH DX
 			MOV AL, 18; 18 = number of columns * 2, because dealing with words.
 			MUL BX
-			MOV BP, BX; store the row index in BP
+			MOV BP, AX; store the row index in BP
+			POP DX
 			
 			POP AX; restore the result of multiplication
 			MOV MATRIX[BP][DI], AX; store the product in MATRIX[i*2*nCols][2*j]
