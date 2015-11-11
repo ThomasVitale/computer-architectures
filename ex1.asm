@@ -9,6 +9,7 @@
 
 DIM_A EQU 10
 DIM_B EQU 9
+DIM_M EQU 81
 
 	.MODEL small
 	.STACK
@@ -18,6 +19,7 @@ DIM_B EQU 9
 		VETT_B DB DIM_B ?
 		MIN_A DB ?
 		MIN_B DB ?
+		MATRIX DW DIM_M DUP(?)
 		
 	.CODE
 	.STARTUP
