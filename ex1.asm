@@ -16,7 +16,7 @@ DIM_M EQU 81
 	
 	.DATA
 		VETT_A DB 5, 21, 7, 4, 10, 33, 56, 96, 25, 15
-		VETT_B DB DIM_B ?
+		VETT_B DB DIM_B DUP(?)
 		MIN_A DB ?
 		MIN_B DB ?
 		MATRIX DW DIM_M DUP(?)
