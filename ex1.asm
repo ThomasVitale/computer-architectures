@@ -19,7 +19,7 @@ DIM_M EQU 81
 		VETT_B DB DIM_B DUP(?)
 		MIN_A DB ?
 		MIN_B DB ?
-		MATRIX DW DIM_M DUP(?)
+		MATR DW DIM_M DUP(?)
 		MAX DW ?
 		
 	.CODE
@@ -91,14 +91,12 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 			PUSH AX; save the result
 			
 			XOR AX,AX; initialitation, used to compute the row index of matrix
-			PUSH DX
 			MOV AL, 18; 18 = number of columns * 2, because dealing with words.
-			MUL BX
+			MUL BX; BX*number of columns*2(byte)
 			MOV BP, AX; store the row index in BP
-			POP DX
 			
 			POP AX; restore the result of multiplication
-			MOV MATRIX[BP][DI], AX; store the product in MATRIX[i*2*nCols][2*j]
+			MOV MATR[BP][DI], AX; store the product in MATR[i*2*nCols][2*j]
 			
 			POP AX; restore the first operand of multiplication, i.e. VETT_A[BX]
 			
@@ -121,9 +119,9 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 			MOV CX, DIM_M
 			XOR DI, DI;
 									
-search_maximum: 	CMP AX, MATRIX[DI]; compare with the current maximum		
-			JB current_is_maximum; if AX>MATRIX[DI]
-			MOV AX, MATRIX[DI]; AX<MATRIX[DI], store the new maximum
+search_maximum: 	CMP AX, MATR[DI]; compare with the current maximum		
+			JB current_is_maximum; if AX>MATR[DI]
+			MOV AX, MATR[DI]; AX<MATR[DI], store the new maximum
 current_is_maximum: 	ADD DI, 2
 			DEC CX
 			CMP CX,0
