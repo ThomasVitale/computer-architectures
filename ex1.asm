@@ -8,6 +8,10 @@
 ;     of 9x9 values (words).
 ; 4 - Find the maximum value among values of the so computed matrix. 
 ;     Is there overflow?
+;
+; > While adding up pairs of values, an overflow could occur.
+;   In this case, the program ends after printing out a message.
+;   During the multiplication, it's not possible to have overflow.
 
 DIM_A EQU 10
 DIM_B EQU 9
@@ -24,6 +28,7 @@ DIM_M EQU 81
 		OPD_A DW ?
 		MATR DW DIM_M DUP(?)
 		MAX DW ?
+		OVERFLOW_MSG DB " Overflow occurred adding up the pairs of values, please check VETT_A", 13, 130, '$'
 		
 	.CODE
 	.STARTUP
@@ -36,7 +41,9 @@ DIM_M EQU 81
 		
 sum_pair_values:	MOV AL, VETT_A[DI]; first value of the pair
 			ADD AL, VETT_A[DI+1]; add second value of the pair to the first one
-			MOV VETT_B[DI], AL; store the sum of the pair in the second vector
+			JNC no_overflow; if there isn't overflow (CF=0), continue
+			JMP handle_overflow; otherwise, exit the loop and handle it 
+no_overflow:		MOV VETT_B[DI], AL; store the sum of the pair in the second vector
 			INC DI
 			DEC CX
 			CMP CX,0
@@ -131,6 +138,14 @@ current_is_maximum: 	ADD DI, 2
 			JNZ search_maximum 
 			
 			MOV MAX, AX;store the maximum
+			
+			JMP end_program
+
+handle_overflow:	LEA DX, OVERFLOW_MSG; store in DX the offset of message 
+	                MOV AH, 09H; predisposition of AH for printing characters
+	                INT 21H; print the message
+	                
+end_program: 
 						
 	.EXIT
 END
