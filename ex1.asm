@@ -6,6 +6,8 @@
 ; 3 - compute all possible products among first 9 values of first array 
 ;     and all 9 values of second array, putting results in a matrix 
 ;     of 9x9 values (words).
+; 4 - Find the maximum value among values of the so computed matrix. 
+;     Is there overflow?
 
 DIM_A EQU 10
 DIM_B EQU 9
@@ -19,6 +21,7 @@ DIM_M EQU 81
 		VETT_B DB DIM_B DUP(?)
 		MIN_A DB ?
 		MIN_B DB ?
+		OPD_A DW ?
 		MATR DW DIM_M DUP(?)
 		MAX DW ?
 		
@@ -82,7 +85,7 @@ current_is_minimum_b: 	INC DI
 			XOR BX,BX; initialitation, used as index for VETT_A
 						
 multiply_outer_loop:	MOV AL, VETT_A[BX]; first operand of multiplication
-			PUSH AX; save the operand to be multiplied by each element of VETT_B
+			MOV OPD_A, AX; save the operand to be multiplied by each element of VETT_B
 			XOR SI, SI; initialitation, used as index for VETT_B
 			XOR DI, DI; initialitation, used as col index for matrix
 			MOV CX, DIM_B
@@ -96,9 +99,9 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 			MOV BP, AX; store the row index in BP
 			
 			POP AX; restore the result of multiplication
-			MOV MATR[BP][DI], AX; store the product in MATR[i*2*nCols][2*j]
+			MOV DS:MATR[BP][DI], AX; store the product in MATR[i*2*nCols][2*j]
 			
-			POP AX; restore the first operand of multiplication, i.e. VETT_A[BX]
+			MOV AX, OPD_A; restore the first operand of multiplication, i.e. VETT_A[BX]
 			
 			INC SI
 			ADD DI, 2
@@ -120,7 +123,7 @@ multiply_inner_loop:	MUL VETT_B[SI]; VETT_A[BX]*VETT_B[SI]
 			XOR DI, DI;
 									
 search_maximum: 	CMP AX, MATR[DI]; compare with the current maximum		
-			JB current_is_maximum; if AX>MATR[DI]
+			JA current_is_maximum; if AX>MATR[DI]
 			MOV AX, MATR[DI]; AX<MATR[DI], store the new maximum
 current_is_maximum: 	ADD DI, 2
 			DEC CX
