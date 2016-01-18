@@ -28,7 +28,7 @@ DIM_M EQU 81
 		OPD_A DW ?
 		MATR DW DIM_M DUP(?)
 		MAX DW ?
-		OVERFLOW_MSG DB " Overflow occurred adding up the pairs of values, please check VETT_A", 13, 130, '$'
+		OVERFLOW_MSG DB " Overflow occurred adding up the pairs of values, please check VETT_A", 13, 10, '$'
 		
 	.CODE
 	.STARTUP
